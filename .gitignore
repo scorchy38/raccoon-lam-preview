@@ -140,7 +140,6 @@ cython_debug/
 *.rar
 *.7z
 *.sql
-*.json
 *.env
 
 # Mac OS settings
