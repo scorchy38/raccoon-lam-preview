@@ -1,0 +1,19 @@
+name: Deploy Gradio Interface on HF
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy
+      uses: nateraw/huggingface-sync-action@v0.0.4
+      with:
+        github_repo_id: scorchy38/raccoon-lam-preview
+        huggingface_repo_id: scorchy38/raccoon-lam-preview
+        repo_type: space
+        space_sdk: gradio
+        hf_token: ${{ secrets.HF_TOKEN }}
