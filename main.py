@@ -61,4 +61,4 @@ def setup_gradio_interface():
 if __name__ == "__main__":
     load_dotenv()
     app = setup_gradio_interface()
-    app.launch()
+    app.launch(show_api=False)
