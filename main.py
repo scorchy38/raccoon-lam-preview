@@ -25,7 +25,8 @@ def handle_chat_input(user_input, history):
             return history + [("user", message)], ""
         else:
             body = {
-                "query": user_input
+                "query": user_input,
+                "chat_history": []
             }
             response = requests.post(
                 base_url + "/sdk/steps/get",
@@ -43,10 +44,10 @@ def handle_chat_input(user_input, history):
 
 def setup_gradio_interface():
     with gr.Blocks(theme='scorchy38/everything_light', title="Raccoon LAM Service") as interface:
-        gr.Markdown("# Raccoon LAM Service - Component Interface For Music App")
+        gr.Markdown("# Raccoon LAM Service - Component Interface")
         chat_history = gr.Chatbot(label="Conversation", placeholder="Type here...", height=600)
         input_text = gr.Textbox(label="Type your message here",
-                                placeholder="Type 'process tasks' to initiate task processing or ask it for steps to play some music...")
+                                placeholder="Type 'process tasks' to initiate task processing or ask it to play some music...")
         submit_button = gr.Button("Send")
 
         submit_button.click(
