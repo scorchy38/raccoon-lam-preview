@@ -11,7 +11,7 @@ def handle_chat_input(user_input, history):
     headers = {
         "secret-key": os.environ.get('API_KEY'),
         "user-id": "lam-preview-user",
-        "platform": "gradio"
+        "platform": "iOS"
     }
 
     try:
@@ -46,8 +46,20 @@ def setup_gradio_interface():
     with gr.Blocks(theme='scorchy38/everything_light', title="Raccoon LAM Service") as interface:
         gr.Markdown("# Raccoon LAM Service - Component Interface")
         chat_history = gr.Chatbot(label="Conversation", placeholder="Type here...", height=600)
+
+        example_messages = ["Check Order History", "Post a new tweet", "Add a new address"]
+
         input_text = gr.Textbox(label="Type your message here",
-                                placeholder="Type 'process tasks' to initiate task processing or ask it to play some music...")
+                                placeholder="Type 'process tasks' to initiate task processing or choose a prompt below...")
+
+        with gr.Row():
+            for msg in example_messages:
+                gr.Button(msg, size="sm").click(
+                    lambda x=msg: x,
+                    inputs=[],
+                    outputs=[input_text]
+                )
+
         submit_button = gr.Button("Send")
 
         submit_button.click(
