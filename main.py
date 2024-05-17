@@ -11,7 +11,7 @@ def handle_chat_input(user_input, history):
     headers = {
         "secret-key": os.environ.get('API_KEY'),
         "user-id": "lam-preview-user",
-        "platform": "gradio"
+        "platform": "iOS"
     }
 
     try:
@@ -25,7 +25,8 @@ def handle_chat_input(user_input, history):
             return history + [("user", message)], ""
         else:
             body = {
-                "query": user_input
+                "query": user_input,
+                "chat_history": []
             }
             response = requests.post(
                 base_url + "/sdk/steps/get",
@@ -43,10 +44,28 @@ def handle_chat_input(user_input, history):
 
 def setup_gradio_interface():
     with gr.Blocks(theme='scorchy38/everything_light', title="Raccoon LAM Service") as interface:
-        gr.Markdown("# Raccoon LAM Service - Component Interface For Music App")
-        chat_history = gr.Chatbot(label="Conversation", placeholder="Type here...", height=600)
+        gr.Markdown("# Raccoon LAM Service - Component Interface")
+        gr.Markdown("""
+            <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
+                <strong>Note:</strong> This preview does not have context of chat history and runs on weaker CPUs. Performance may be limited.
+            </div>
+        """)
+
+        chat_history = gr.Chatbot(label="Conversation", placeholder="Type here...", height=450)
+
+        example_messages = ["Check Order History", "Post a new tweet", "Add a new address"]
+
         input_text = gr.Textbox(label="Type your message here",
-                                placeholder="Type 'process tasks' to initiate task processing or ask it for steps to play some music...")
+                                placeholder="Type 'process tasks' to initiate task processing or choose a prompt below...")
+
+        with gr.Row():
+            for msg in example_messages:
+                gr.Button(msg, size="sm").click(
+                    lambda x=msg: x,
+                    inputs=[],
+                    outputs=[input_text]
+                )
+
         submit_button = gr.Button("Send")
 
         submit_button.click(
