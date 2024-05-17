@@ -45,7 +45,13 @@ def handle_chat_input(user_input, history):
 def setup_gradio_interface():
     with gr.Blocks(theme='scorchy38/everything_light', title="Raccoon LAM Service") as interface:
         gr.Markdown("# Raccoon LAM Service - Component Interface")
-        chat_history = gr.Chatbot(label="Conversation", placeholder="Type here...", height=600)
+        gr.Markdown("""
+            <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
+                <strong>Note:</strong> This preview does not have context of chat history and runs on weaker CPUs. Performance may be limited.
+            </div>
+        """)
+
+        chat_history = gr.Chatbot(label="Conversation", placeholder="Type here...", height=450)
 
         example_messages = ["Check Order History", "Post a new tweet", "Add a new address"]
 
